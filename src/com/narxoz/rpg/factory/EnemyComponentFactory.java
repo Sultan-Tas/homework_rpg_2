@@ -59,9 +59,6 @@ import java.util.List;
  *       .setLootTable(factory.createLootTable())
  *       .build();
  *
- * Think: How is this similar to HW1's EquipmentFactory?
- * Think: What ensures a Fire enemy never gets Ice loot?
- * Think: How easy is it to add a new theme (e.g., NatureComponentFactory)?
  */
 public interface EnemyComponentFactory {
 

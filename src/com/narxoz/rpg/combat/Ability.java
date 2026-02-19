@@ -1,5 +1,4 @@
 package com.narxoz.rpg.combat;
-
 /**
  * Interface for all enemy abilities in the RPG system.
  *
@@ -20,21 +19,12 @@ package com.narxoz.rpg.combat;
  * - What information should every ability provide?
  * - How should abilities be displayed?
  * - How should abilities be cloned for Prototype pattern?
- *
- * Consider methods like:
- * - String getName()
- * - int getDamage()
- * - String getDescription()
- * - AbilityType getType() (e.g., DAMAGE, BUFF, DEBUFF, ULTIMATE)
- * - Ability clone()   <-- Critical for Prototype pattern!
  */
 public interface Ability {
 
-    // TODO: Define ability behavior methods
-    // Consider:
-    // - String getName()
-    // - int getDamage()
-    // - String getDescription()
-    // - Ability clone()  <-- IMPORTANT for deep copying!
-
+    String getName();
+    int getDamage();
+    String getDescription();
+    Ability clone();
+    AbilityType getType();
 }

@@ -1,5 +1,11 @@
 package com.narxoz.rpg;
 
+import com.narxoz.rpg.combat.Ability;
+import com.narxoz.rpg.factory.*;
+import com.narxoz.rpg.loot.LootTable;
+
+import java.util.List;
+
 /**
  * Main demonstration class for the RPG Enemy System.
  *
@@ -61,13 +67,52 @@ public class Main {
         //   Show that Ice factory creates ice abilities + ice loot
         //   Show that they CANNOT be mixed (consistency guaranteed!)
         //
-        // Think: How is this similar to HW1's EquipmentFactory?
 
         System.out.println("============================================");
         System.out.println("PART 1: ABSTRACT FACTORY - Themed Components");
         System.out.println("============================================\n");
 
-        // Your Abstract Factory demonstration here...
+        //Fire
+        System.out.println("Fire Factory result:");
+        EnemyComponentFactory fireFactory = new FireComponentFactory();
+        List<Ability> fireAbilities = fireFactory.createAbilities();
+        LootTable fireLoot = fireFactory.createLootTable();
+        String fireAI = fireFactory.createAIBehavior();
+        System.out.println("\tAbilities:");
+        for(Ability abil : fireAbilities) {
+            System.out.print("[" + abil.getName() + "] ");
+        }
+        System.out.println("\nLoot: " + fireLoot.getLootInfo());
+        System.out.println("AI type: " + fireAI);
+        System.out.println();
+
+        //Ice
+        System.out.println("Ice Factory result:");
+        EnemyComponentFactory iceFactory = new IceComponentFactory();
+        List<Ability> iceAbilities = iceFactory.createAbilities();
+        LootTable iceLoot = iceFactory.createLootTable();
+        String iceAI = iceFactory.createAIBehavior();
+        System.out.println("\tAbilities:");
+        for(Ability abil : iceAbilities) {
+            System.out.print("[" + abil.getName() + "] ");
+        }
+        System.out.println("\nLoot: " + iceLoot.getLootInfo());
+        System.out.println("AI type: " + iceAI);
+        System.out.println();
+
+        //Shadow
+        System.out.println("Shadow Factory result:");
+        EnemyComponentFactory shadowFactory = new ShadowComponentFactory();
+        List<Ability> shadowAbilities = shadowFactory.createAbilities();
+        LootTable shadowLoot = shadowFactory.createLootTable();
+        String shadowAI = shadowFactory.createAIBehavior();
+        System.out.println("\tAbilities:");
+        for(Ability abil : shadowAbilities) {
+            System.out.print("[" + abil.getName() + "] ");
+        }
+        System.out.println("\nLoot: " + shadowLoot.getLootInfo());
+        System.out.println("AI type: " + shadowAI);
+        System.out.println();
 
 
         // ============================================================
