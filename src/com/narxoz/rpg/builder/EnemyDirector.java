@@ -5,7 +5,6 @@ import com.narxoz.rpg.enemy.Enemy;
 import com.narxoz.rpg.factory.EnemyComponentFactory;
 
 public class EnemyDirector {
-    private EnemyBuilder builder;
 
     public Enemy createMinion(EnemyComponentFactory factory){
         return new BasicEnemyBuilder()
