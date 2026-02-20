@@ -6,6 +6,7 @@ import com.narxoz.rpg.builder.BasicEnemyBuilder;
 import com.narxoz.rpg.combat.Ability;
 import com.narxoz.rpg.combat.BleedingStrike;
 import com.narxoz.rpg.combat.Punch;
+import com.narxoz.rpg.enemy.DragonBoss;
 import com.narxoz.rpg.enemy.Enemy;
 import com.narxoz.rpg.factory.*;
 import com.narxoz.rpg.loot.LootTable;
@@ -13,6 +14,7 @@ import com.narxoz.rpg.loot.LootTableBasic;
 import com.narxoz.rpg.prototype.EnemyRegistry;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Main demonstration class for the RPG Enemy System.
@@ -219,6 +221,7 @@ public class Main {
                 .setDamage(40)
                 .setDefence(30)
                 .setSpeed(60)
+                .setLootTable(new LootTableBasic())
                 .setElement("basic")
                 .setCanFly(true)
                 .setHasBreathAttack(true).build();
@@ -237,7 +240,22 @@ public class Main {
         kingGoblin.addPhase(1, kingGoblin.getHealth());
         kingGoblin.addPhase(2, kingGoblin.getHealth()/2);
 
+        displayEnemyDetails(baseGoblin);
+        displayEnemyDetails(eliteGoblin);
+        displayEnemyDetails(kingGoblin);
+
         //dragon variations
+        DragonBoss fireDragon = (DragonBoss) registry.createFromTemplate("dragon");
+        fireDragon.setElement("Fire");
+        fireDragon.setAbilities(fireFactory.createAbilities());
+
+        DragonBoss iceDragon = (DragonBoss) registry.createFromTemplate("dragon");
+        fireDragon.setElement("Ice");
+        fireDragon.setAbilities(iceFactory.createAbilities());
+
+        DragonBoss shadowDragon = (DragonBoss) registry.createFromTemplate("dragon");
+        fireDragon.setElement("Shadow");
+        fireDragon.setAbilities(shadowFactory.createAbilities());
 
 
         // ============================================================
@@ -268,8 +286,31 @@ public class Main {
         System.out.println("PART 4: ALL PATTERNS WORKING TOGETHER");
         System.out.println("============================================\n");
 
-        // Your integration demonstration here...
+        //creating factory for abilities, loot and AI
+        //output is the same as [shadowFactory] declared in Part 1
+        // (Abstract factory)
+        EnemyComponentFactory shadowestFactory = new ShadowComponentFactory();
 
+        //Creation of template for Demon Lord enemy. build() method is the factory method
+        // as it is responsible for specific "type" of enemy. Similar to how characters were created in
+        // HomeWork1 (Builder pattern + Factory method)
+        Enemy demonLord = new BossEnemyBuilder()
+                .setName("Demon Lord")
+                .setHealth(6969)
+                .setDamage(60)
+                .setDefence(40)
+                .setSpeed(30)
+                .setAbilities(shadowFactory.createAbilities())
+                .setLootTable(shadowFactory.createLootTable())
+                .build();
+
+        //Prototype is inserted int o registry for future use (Prototype pattern)
+        registry.registerTemplate("demon-lord", demonLord);
+
+        //Usage of the template and modification of the data
+        Enemy greaterDemon = registry.createFromTemplate("demon-lord");
+        greaterDemon.multiplyStats(2.0);
+        displayEnemyDetails(greaterDemon);
 
         // ============================================================
         // SUMMARY
@@ -278,19 +319,48 @@ public class Main {
         System.out.println("PATTERN SUMMARY");
         System.out.println("============================================");
         System.out.println();
-        // TODO: Print a summary showing which patterns were demonstrated
-        // Example:
-        // System.out.println("Abstract Factory: Themed component families (Fire, Ice, Shadow)");
-        // System.out.println("Builder: Complex step-by-step enemy construction");
-        // System.out.println("Factory Method: Embedded in Builder.build() and Director");
-        // System.out.println("Prototype: Efficient template cloning with deep copy");
+         System.out.println("Abstract Factory: Themed component families (Fire, Ice, Shadow)");
+         System.out.println("Builder: Complex step-by-step enemy construction");
+         System.out.println("Factory Method: Used through in Builder.build() and Director");
+         System.out.println("Prototype: Cloning existing objects instead of creating new ones");
 
         System.out.println("\n=== Demo Complete ===");
     }
 
     // TODO: Add helper methods as needed
     // Consider:
-    // - displayEnemyDetails(Enemy enemy)
+    public static void displayEnemyDetails(Enemy enemy){
+        System.out.println("=== " + enemy.getName() + " ===");
+        System.out.println("Health: " + enemy.getHealth() + " | Damage: " + enemy.getDamage()
+                + " | Defense: " + enemy.getDefense() + " | Speed: " + enemy.getSpeed());
+        //abilities
+        if(!enemy.getAbilities().isEmpty()){
+            System.out.println("Abilities (" + enemy.getAbilities().size() + "):");
+            for(Ability ability : enemy.getAbilities()) {
+                System.out.println("\t[" + ability.getName() + "]");
+                System.out.println("\t\t DMG: " + ability.getDamage());
+                System.out.println("\t\t <" + ability.getDescription() + ">");
+            }
+        }
+
+        //phases
+        if(!enemy.getPhases().isEmpty()) {
+            System.out.println("Boss Phases: " + enemy.getPhases().size());
+            for (Map.Entry<Integer, Integer> phase : enemy.getPhases().entrySet()) {
+                System.out.println("  Phase " + phase.getKey()
+                        + ": triggers at " + phase.getValue() + " HP");
+            }
+        }
+        //loot
+        System.out.println("  Loot Table:");
+        System.out.println("Gold: " + enemy.getLootTable().getGoldDrop());
+        System.out.println("EXP: " + enemy.getLootTable().getExperienceDrop());
+        System.out.println("Items:");
+        for(String item : enemy.getLootTable().getItems()) {
+            System.out.println("\t" + item);
+        }
+        System.out.println();
+    }
     // - demonstrateDeepCopy(Enemy original, Enemy clone)
     // - createThemeDemo(EnemyComponentFactory factory, String themeName)
 }

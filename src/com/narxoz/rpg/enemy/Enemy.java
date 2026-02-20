@@ -4,7 +4,9 @@ import com.narxoz.rpg.combat.Ability;
 import com.narxoz.rpg.combat.BleedingStrike;
 import com.narxoz.rpg.loot.LootTable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Base interface for all enemies in the RPG system.
@@ -67,17 +69,18 @@ public interface Enemy {
     int getDamage();
     int getDefense();
     int getSpeed();
-
+    Map<Integer, Integer> getPhases();
     // TODO: Define ability methods
+
     List<Ability> getAbilities();
-
     // TODO: Define loot methods
+
     LootTable getLootTable();
-
     //Define display method
-    void displayInfo();   //(shows all stats, abilities, loot)
 
+    void displayInfo();   //(shows all stats, abilities, loot)
     //Define clone method for Prototype pattern
+
     Enemy clone();
 
     void multiplyStats(double i);

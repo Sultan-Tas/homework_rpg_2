@@ -129,12 +129,7 @@ public class BossEnemyBuilder implements EnemyBuilder{
                 damage,
                 defense,
                 speed,
-                element,
                 abilities,
-                phases,
-                lootTable,
-                aiBehavior,
-                canFly,
-                hasBreathAttack);
+                lootTable);
     }
 }

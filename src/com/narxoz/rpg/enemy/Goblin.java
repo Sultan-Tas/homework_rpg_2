@@ -123,6 +123,11 @@ public class Goblin implements Enemy {
     }
 
     @Override
+    public Map<Integer, Integer> getPhases() {
+        return phases;
+    }
+
+    @Override
     public List<Ability> getAbilities() {
         return abilities;
     }
@@ -149,6 +154,7 @@ public class Goblin implements Enemy {
         for(String item : lootTable.getItems()) {
             System.out.println("\t" + item);
         }
+        System.out.println();
     }
 
     public Enemy clone() {

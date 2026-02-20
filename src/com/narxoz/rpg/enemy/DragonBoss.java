@@ -90,25 +90,17 @@ public class DragonBoss implements Enemy {
      * or replaced entirely.
      */
     public DragonBoss(String name, int health, int damage, int defense,
-                      int speed, String element,
+                      int speed,
                       List<Ability> abilities,
-                      Map<Integer, Integer> phases,
-                      LootTable lootTable, String aiBehavior,
-                      boolean canFly, boolean hasBreathAttack) {
+                      LootTable lootTable) {
 
         this.name = name;
         this.health = health;
         this.damage = damage;
         this.defense = defense;
         this.speed = speed;
-        this.element = element;
         this.abilities = abilities != null ? abilities : new ArrayList<>();
-        this.phases = new HashMap<>();
-        this.phases.putAll(phases);
         this.lootTable = lootTable;
-        this.aiBehavior = aiBehavior;
-        this.canFly = canFly;
-        this.hasBreathAttack = hasBreathAttack;
     }
     private DragonBoss(){}
 
@@ -145,6 +137,11 @@ public class DragonBoss implements Enemy {
         return lootTable;
     }
 
+    @Override
+    public Map<Integer, Integer> getPhases() {
+        return phases;
+    }
+
     public void displayInfo() {
         System.out.println("=== " + name + " (Dragon Boss) ===");
         System.out.println("Health: " + health + " | Damage: " + damage
@@ -174,6 +171,7 @@ public class DragonBoss implements Enemy {
         for(String item : lootTable.getItems()) {
             System.out.println("\t" + item);
         }
+        System.out.println();
     }
 
     @Override
@@ -196,7 +194,7 @@ public class DragonBoss implements Enemy {
         copy.lootTable = this.lootTable.clone();
         copy.hasBreathAttack = this.hasBreathAttack;
         copy.canFly = this.canFly;
-        return null;
+        return copy;
     }
 
     // TODO: Implement clone() for Prototype pattern
