@@ -36,8 +36,7 @@ import java.util.List;
  */
 public interface LootTable {
 
-    // TODO: Define loot table behavior methods
-    // Consider:
+    // Define loot table behavior methods
     List<String> getItems();
     int getGoldDrop();
     int getExperienceDrop();

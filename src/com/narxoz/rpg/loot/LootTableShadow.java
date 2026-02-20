@@ -20,12 +20,6 @@ public class LootTableShadow implements LootTable {
     }
 
 
-    public LootTableShadow(LootTable other) {
-        lootList = other.getItems();
-        goldDrop = other.getGoldDrop();
-        expDrop = other.getExperienceDrop();
-        lootInfo = other.getLootInfo();
-    }
     @Override
     public List<String> getItems() {
         return lootList;
@@ -48,6 +42,15 @@ public class LootTableShadow implements LootTable {
 
     @Override
     public LootTable clone() {
-        return new LootTableShadow(this);
+        LootTableShadow copy = new LootTableShadow();
+        copy.goldDrop = this.goldDrop;
+        copy.expDrop = this.expDrop;
+        copy.lootInfo = this.lootInfo;
+
+        copy.lootList = new ArrayList<String>();
+        for(String s : lootList){
+            copy.lootList.add(s);
+        }
+        return copy;
     }
 }

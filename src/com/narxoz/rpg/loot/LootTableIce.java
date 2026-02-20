@@ -19,13 +19,6 @@ public class LootTableIce implements LootTable {
         lootInfo = "Ice-themed drops";
     }
 
-
-    public LootTableIce(LootTable other) {
-        lootList = other.getItems();
-        goldDrop = other.getGoldDrop();
-        expDrop = other.getExperienceDrop();
-        lootInfo = other.getLootInfo();
-    }
     @Override
     public List<String> getItems() {
         return lootList;
@@ -48,6 +41,15 @@ public class LootTableIce implements LootTable {
 
     @Override
     public LootTable clone() {
-        return new LootTableIce(this);
+        LootTableIce copy = new LootTableIce();
+        copy.goldDrop = this.goldDrop;
+        copy.expDrop = this.expDrop;
+        copy.lootInfo = this.lootInfo;
+
+        copy.lootList = new ArrayList<String>();
+        for(String s : lootList){
+            copy.lootList.add(s);
+        }
+        return copy;
     }
 }

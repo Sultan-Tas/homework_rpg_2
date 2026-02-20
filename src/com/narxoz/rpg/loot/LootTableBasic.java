@@ -3,20 +3,18 @@ package com.narxoz.rpg.loot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LootTableFire implements LootTable {
+public class LootTableBasic implements LootTable {
     private List<String> lootList;
     private int goldDrop;
     private int expDrop;
     private String lootInfo;
 
-    public LootTableFire() {
+    public LootTableBasic() {
         lootList = new ArrayList<String>();
-        lootList.add("Lava Stone");
-        lootList.add("Dragon Scale");
-        lootList.add("Flame Runes");
-        goldDrop = 20;
-        expDrop = 15;
-        lootInfo = "Fire-related drops";
+        lootList.add("Monster meat");
+        goldDrop = 5;
+        expDrop = 3;
+        lootInfo = "Basic drops";
     }
 
     @Override
@@ -41,7 +39,7 @@ public class LootTableFire implements LootTable {
 
     @Override
     public LootTable clone() {
-        LootTableFire copy = new LootTableFire();
+        LootTableBasic copy = new LootTableBasic();
         copy.goldDrop = this.goldDrop;
         copy.expDrop = this.expDrop;
         copy.lootInfo = this.lootInfo;

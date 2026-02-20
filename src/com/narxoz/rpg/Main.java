@@ -1,6 +1,11 @@
 package com.narxoz.rpg;
 
+import com.narxoz.rpg.builder.DragonEnemyBuilder;
+import com.narxoz.rpg.builder.EnemyDirector;
+import com.narxoz.rpg.builder.GoblinEnemyBuilder;
 import com.narxoz.rpg.combat.Ability;
+import com.narxoz.rpg.enemy.DragonBoss;
+import com.narxoz.rpg.enemy.Enemy;
 import com.narxoz.rpg.factory.*;
 import com.narxoz.rpg.loot.LootTable;
 
@@ -149,8 +154,25 @@ public class Main {
         System.out.println("PART 2: BUILDER - Complex Enemy Construction");
         System.out.println("============================================\n");
 
-        // Your Builder demonstration here...
+        Enemy dragon = new DragonEnemyBuilder()
+                .setName("Ancient Fire Dragon")
+                .setHealth(50000)
+                .setDamage(500)
+                .setDefence(50)
+                .setSpeed(60)
+                .setAbilities(fireFactory.createAbilities())
+                .setLootTable(fireFactory.createLootTable())
+                .setPhase1Threshold(50000)
+                .setPhase2Threshold(30000)
+                .build();
 
+        EnemyDirector director = new EnemyDirector();
+        Enemy minion = director.createMinion(new GoblinEnemyBuilder(), fireFactory);
+        Enemy raidboss = director.createRaidBoss(new DragonEnemyBuilder(), iceFactory);
+
+        dragon.displayInfo();
+        minion.displayInfo();
+        raidboss.displayInfo();
 
         // ============================================================
         // PART 3: PROTOTYPE PATTERN

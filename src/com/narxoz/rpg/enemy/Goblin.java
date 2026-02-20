@@ -1,7 +1,9 @@
 package com.narxoz.rpg.enemy;
 
 import com.narxoz.rpg.combat.Ability;
+import com.narxoz.rpg.combat.Punch;
 import com.narxoz.rpg.loot.LootTable;
+import com.narxoz.rpg.loot.LootTableBasic;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ public class Goblin implements Enemy {
     private int speed;
     private List<Ability> abilities;
     private LootTable lootTable;
+    private String element = "Basic";
 
     // TODO: Add more fields as needed (element, AI behavior, etc.)
 
@@ -73,8 +76,18 @@ public class Goblin implements Enemy {
         this.defense = 5;
         this.speed = 35;
         this.abilities = new ArrayList<>();
-        // TODO: Initialize with default abilities
-        // TODO: Initialize with default loot table
+        this.abilities.add(new Punch());
+        this.lootTable = new LootTableBasic();
+    }
+    public Goblin(String name, int health, int damage, int defense, int speed, List<Ability> abilities, LootTable lootTable, String element) {
+        this.name = name;
+        this.health = health;
+        this.damage = damage;
+        this.defense = defense;
+        this.speed = speed;
+        this.abilities = abilities;
+        this.lootTable = lootTable;
+        this.element = element;
     }
 
     // TODO: Implement methods from Enemy interface
@@ -89,37 +102,75 @@ public class Goblin implements Enemy {
         return health;
     }
 
+    @Override
+    public int getDamage() {
+        return damage;
+    }
+
+    @Override
+    public int getDefense() {
+        return defense;
+    }
+
+    @Override
+    public int getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public List<Ability> getAbilities() {
+        return abilities;
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return lootTable;
+    }
+
     public void displayInfo() {
         System.out.println("=== " + name + " (Goblin) ===");
         System.out.println("Health: " + health + " | Damage: " + damage
                 + " | Defense: " + defense + " | Speed: " + speed);
         System.out.println("Abilities: " + abilities.size() + " ability(ies)");
-        // TODO: Display abilities details
-        // TODO: Display loot table
+        for(Ability ability : abilities) {
+            System.out.println("\t[" + ability.getName() + "]");
+            System.out.println("\t\t DMG:" + ability.getDamage());
+            System.out.println("\t\t <" + ability.getDescription() + ">");
+        }
+        System.out.println("  Loot Table:");
+        System.out.println("Gold: " + lootTable.getGoldDrop());
+        System.out.println("EXP: " + lootTable.getExperienceDrop());
+        System.out.println("Items:");
+        for(String item : lootTable.getItems()) {
+            System.out.println("\t" + item);
+        }
     }
 
-    // TODO: Implement clone() for Prototype pattern
-    // This is CRITICAL! You must deep copy:
-    //   - The abilities list (create new list, clone each ability)
-    //   - The loot table (clone it)
-    //   - Primitive fields can be copied directly
-    //
-    // Example skeleton:
-    // public Enemy clone() {
-    //     Goblin copy = new Goblin(this.name);
-    //     copy.health = this.health;
-    //     copy.damage = this.damage;
-    //     copy.defense = this.defense;
-    //     copy.speed = this.speed;
-    //     copy.abilities = ???  // DEEP COPY! Not just = this.abilities!
-    //     copy.lootTable = ???  // DEEP COPY!
-    //     return copy;
-    // }
+    public Enemy clone() {
+        Goblin copy = new Goblin(this.name);
+        copy.health = this.health;
+        copy.damage = this.damage;
+        copy.defense = this.defense;
+        copy.speed = this.speed;
+        List<Ability> copyList = new ArrayList<>();
+        for(Ability ability : this.abilities) {
+            copyList.add(ability.clone());
+        }
+        copy.abilities = copyList;
+        copy.lootTable = this.lootTable.clone();
+        return copy;
+    }
 
     // TODO: Add helper methods for Prototype variant creation
     // Consider methods like:
-    // - void multiplyStats(double multiplier) — for Elite/Champion variants
-    // - void addAbility(Ability ability) — for enhanced variants
-    // - void setElement(String element) — for elemental variants
+    void multiplyStats(double multiplier){
+        this.health = (int) (this.health*multiplier);
+        this.damage = (int) (this.damage*multiplier);
+        this.defense = (int) (this.defense*multiplier);
+        this.speed = (int) (this.speed*multiplier);
+    }
+    void addAbility(Ability ability){
+        this.abilities.add(ability);
+    }
 
 }

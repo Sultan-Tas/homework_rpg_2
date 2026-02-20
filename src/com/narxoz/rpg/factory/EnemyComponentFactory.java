@@ -41,12 +41,12 @@ import java.util.List;
  * YOUR TASKS:
  * ============================================================
  *
- * TODO: Implement at least 3 concrete component factories:
+ * Implement at least 3 concrete component factories:
  *   - FireComponentFactory   (fire abilities, fire loot, aggressive AI)
  *   - IceComponentFactory    (ice abilities, ice loot, defensive AI)
  *   - ShadowComponentFactory (shadow abilities, shadow loot, tactical AI)
  *
- * TODO: Each factory must create a CONSISTENT family of components.
+ * Each factory must create a CONSISTENT family of components.
  *   - The abilities must match the theme
  *   - The loot must match the theme
  *   - The AI behavior must match the theme
@@ -61,32 +61,8 @@ import java.util.List;
  *
  */
 public interface EnemyComponentFactory {
-
-    /**
-     * Create the set of abilities for this theme.
-     * Example: FireComponentFactory returns [FlameBreath, FireShield, MeteorStorm]
-     *
-     * @return list of themed abilities
-     */
     List<Ability> createAbilities();
-
-    /**
-     * Create the loot table for this theme.
-     * Example: FireComponentFactory returns a loot table with Fire Gems, Dragon Scales, etc.
-     *
-     * @return themed loot table
-     */
     LootTable createLootTable();
-
-    /**
-     * Get the AI behavior type for this theme.
-     * Example: FireComponentFactory returns "AGGRESSIVE"
-     *
-     * Think: Should this return a String, an enum, or an object?
-     * Design decision is yours!
-     *
-     * @return AI behavior description or type
-     */
     String createAIBehavior();
 
 }

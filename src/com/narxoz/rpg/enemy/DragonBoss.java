@@ -70,37 +70,20 @@ public class DragonBoss implements Enemy {
     private int defense;
     private int speed;
 
-    // --- Elemental Theme ---
     private String element;
-
-    // --- Abilities ---
     private List<Ability> abilities;
 
     // --- Boss Phases (health thresholds that trigger behavior changes) ---
     // Phase number -> health threshold at which this phase activates
     private Map<Integer, Integer> phases;
 
-    // --- Loot ---
     private LootTable lootTable;
-
-    // --- AI Behavior ---
     private String aiBehavior;
 
-    // --- Special Properties ---
     private boolean canFly;
     private boolean hasBreathAttack;
-    private int wingspan;
 
     /**
-     * THE TELESCOPING CONSTRUCTOR FROM HELL.
-     *
-     * Count the parameters: FIFTEEN (15).
-     * Can you tell which parameter is which when calling this?
-     * Can you remember the order?
-     * What if you want to add a 16th parameter later?
-     *
-     * THIS is why the Builder pattern exists.
-     *
      * After you implement your Builder, this constructor should be
      * either simplified (package-private, called only by Builder)
      * or replaced entirely.
@@ -108,9 +91,9 @@ public class DragonBoss implements Enemy {
     public DragonBoss(String name, int health, int damage, int defense,
                       int speed, String element,
                       List<Ability> abilities,
-                      int phase1Threshold, int phase2Threshold, int phase3Threshold,
+                      int phase1Threshold, int phase2Threshold,
                       LootTable lootTable, String aiBehavior,
-                      boolean canFly, boolean hasBreathAttack, int wingspan) {
+                      boolean canFly, boolean hasBreathAttack) {
 
         this.name = name;
         this.health = health;
@@ -122,15 +105,11 @@ public class DragonBoss implements Enemy {
         this.phases = new HashMap<>();
         this.phases.put(1, phase1Threshold);
         this.phases.put(2, phase2Threshold);
-        this.phases.put(3, phase3Threshold);
         this.lootTable = lootTable;
         this.aiBehavior = aiBehavior;
         this.canFly = canFly;
         this.hasBreathAttack = hasBreathAttack;
-        this.wingspan = wingspan;
     }
-
-    // TODO: Implement methods from Enemy interface
 
     public String getName() {
         return name;
@@ -140,13 +119,44 @@ public class DragonBoss implements Enemy {
         return health;
     }
 
+    @Override
+    public int getDamage() {
+        return damage;
+    }
+
+    @Override
+    public int getDefense() {
+        return defense;
+    }
+
+    @Override
+    public int getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public List<Ability> getAbilities() {
+        return List.of();
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return null;
+    }
+
     public void displayInfo() {
         System.out.println("=== " + name + " (Dragon Boss) ===");
         System.out.println("Health: " + health + " | Damage: " + damage
                 + " | Defense: " + defense + " | Speed: " + speed);
         System.out.println("Element: " + element);
         System.out.println("Abilities (" + abilities.size() + "):");
-        // TODO: Display each ability's details
+        //abilities
+        for(Ability ability : abilities) {
+            System.out.println("\t[" + ability.getName() + "]");
+            System.out.println("\t\t DMG: " + ability.getDamage());
+            System.out.println("\t\t <" + ability.getDescription() + ">");
+        }
+        //phases
         System.out.println("Boss Phases: " + phases.size());
         for (Map.Entry<Integer, Integer> phase : phases.entrySet()) {
             System.out.println("  Phase " + phase.getKey()
@@ -154,9 +164,20 @@ public class DragonBoss implements Enemy {
         }
         System.out.println("AI Behavior: " + aiBehavior);
         System.out.println("Can Fly: " + canFly
-                + " | Breath Attack: " + hasBreathAttack
-                + " | Wingspan: " + wingspan);
-        // TODO: Display loot table
+                + " | Breath Attack: " + hasBreathAttack);
+        //loot
+        System.out.println("  Loot Table:");
+        System.out.println("Gold: " + lootTable.getGoldDrop());
+        System.out.println("EXP: " + lootTable.getExperienceDrop());
+        System.out.println("Items:");
+        for(String item : lootTable.getItems()) {
+            System.out.println("\t" + item);
+        }
+    }
+
+    @Override
+    public Enemy clone() {
+        return null;
     }
 
     // TODO: Implement clone() for Prototype pattern

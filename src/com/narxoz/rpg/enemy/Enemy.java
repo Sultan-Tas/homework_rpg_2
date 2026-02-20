@@ -60,24 +60,24 @@ import java.util.List;
  */
 public interface Enemy {
 
-    // TODO: Define core stat methods
-    // - String getName()
-    // - int getHealth()
-    // - int getDamage()
-    // - int getDefense()
-    // - int getSpeed()
+    //Define core stat methods
+    String getName();
+    int getHealth();
+    int getDamage();
+    int getDefense();
+    int getSpeed();
 
     // TODO: Define ability methods
-    // - List<Ability> getAbilities()
+    List<Ability> getAbilities();
 
     // TODO: Define loot methods
-    // - LootTable getLootTable()
+    LootTable getLootTable();
 
-    // TODO: Define display method
-    // - void displayInfo()   (shows all stats, abilities, loot)
+    //Define display method
+    void displayInfo();   //(shows all stats, abilities, loot)
 
-    // TODO: Define clone method for Prototype pattern
-    // - Enemy clone()
+    //Define clone method for Prototype pattern
+    Enemy clone();
     //
     // CRITICAL: This must perform DEEP COPY!
     // If you do shallow copy, cloned enemies will share ability
