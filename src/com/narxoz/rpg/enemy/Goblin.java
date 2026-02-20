@@ -5,8 +5,10 @@ import com.narxoz.rpg.combat.Punch;
 import com.narxoz.rpg.loot.LootTable;
 import com.narxoz.rpg.loot.LootTableBasic;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Example basic enemy implementation — a simple Goblin.
@@ -62,9 +64,12 @@ public class Goblin implements Enemy {
     private int damage;
     private int defense;
     private int speed;
-    private List<Ability> abilities;
+    private List<Ability> abilities = new ArrayList<>();
     private LootTable lootTable;
     private String element = "Basic";
+
+    private String aiBehavior;
+    private Map<Integer, Integer> phases = new HashMap<>();
 
     // TODO: Add more fields as needed (element, AI behavior, etc.)
 
@@ -158,19 +163,26 @@ public class Goblin implements Enemy {
         }
         copy.abilities = copyList;
         copy.lootTable = this.lootTable.clone();
+        copy.element = this.element;
         return copy;
     }
 
     // TODO: Add helper methods for Prototype variant creation
     // Consider methods like:
-    void multiplyStats(double multiplier){
+    @Override
+    public void multiplyStats(double multiplier){
         this.health = (int) (this.health*multiplier);
         this.damage = (int) (this.damage*multiplier);
         this.defense = (int) (this.defense*multiplier);
         this.speed = (int) (this.speed*multiplier);
     }
-    void addAbility(Ability ability){
+    @Override
+    public void addAbility(Ability ability){
         this.abilities.add(ability);
+    }
+    @Override
+    public void addPhase(int phaseNumber, int healthThreshold) {
+        this.phases.put(phaseNumber, healthThreshold);
     }
 
 }

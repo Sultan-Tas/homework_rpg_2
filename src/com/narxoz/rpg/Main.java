@@ -1,13 +1,16 @@
 package com.narxoz.rpg;
 
-import com.narxoz.rpg.builder.DragonEnemyBuilder;
+import com.narxoz.rpg.builder.BossEnemyBuilder;
 import com.narxoz.rpg.builder.EnemyDirector;
-import com.narxoz.rpg.builder.GoblinEnemyBuilder;
+import com.narxoz.rpg.builder.BasicEnemyBuilder;
 import com.narxoz.rpg.combat.Ability;
-import com.narxoz.rpg.enemy.DragonBoss;
+import com.narxoz.rpg.combat.BleedingStrike;
+import com.narxoz.rpg.combat.Punch;
 import com.narxoz.rpg.enemy.Enemy;
 import com.narxoz.rpg.factory.*;
 import com.narxoz.rpg.loot.LootTable;
+import com.narxoz.rpg.loot.LootTableBasic;
+import com.narxoz.rpg.prototype.EnemyRegistry;
 
 import java.util.List;
 
@@ -154,7 +157,7 @@ public class Main {
         System.out.println("PART 2: BUILDER - Complex Enemy Construction");
         System.out.println("============================================\n");
 
-        Enemy dragon = new DragonEnemyBuilder()
+        Enemy dragon = new BossEnemyBuilder()
                 .setName("Ancient Fire Dragon")
                 .setHealth(50000)
                 .setDamage(500)
@@ -201,7 +204,40 @@ public class Main {
         System.out.println("PART 3: PROTOTYPE - Enemy Cloning & Variants");
         System.out.println("============================================\n");
 
-        // Your Prototype demonstration here...
+        Enemy baseGoblin = new BasicEnemyBuilder()
+                .setName("The Goblin")
+                .setHealth(100)
+                .setDamage(15)
+                .setDefence(7)
+                .setSpeed(40)
+                .addAbility(new Punch())
+                .setLootTable(new LootTableBasic())
+                .setElement("basic").build();
+        Enemy baseDragon = new BossEnemyBuilder()
+                .setName("The Dragon")
+                .setHealth(3000)
+                .setDamage(40)
+                .setDefence(30)
+                .setSpeed(60)
+                .setElement("basic")
+                .setCanFly(true)
+                .setHasBreathAttack(true).build();
+        EnemyRegistry registry = new EnemyRegistry();
+        registry.registerTemplate("goblin", baseGoblin);
+        registry.registerTemplate("dragon", baseDragon);
+
+        //Goblin variations
+        Enemy eliteGoblin = registry.createFromTemplate("goblin");
+        eliteGoblin.multiplyStats(2);
+        Enemy championGoblin = registry.createFromTemplate("goblin");
+        championGoblin.multiplyStats(5);
+        championGoblin.addAbility(new BleedingStrike());
+        Enemy kingGoblin = registry.createFromTemplate("goblin");
+        kingGoblin.multiplyStats(10);
+        kingGoblin.addPhase(1, kingGoblin.getHealth());
+        kingGoblin.addPhase(2, kingGoblin.getHealth()/2);
+
+        //dragon variations
 
 
         // ============================================================

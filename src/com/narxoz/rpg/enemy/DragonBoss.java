@@ -1,6 +1,7 @@
 package com.narxoz.rpg.enemy;
 
 import com.narxoz.rpg.combat.Ability;
+import com.narxoz.rpg.factory.EnemyComponentFactory;
 import com.narxoz.rpg.loot.LootTable;
 
 import java.util.List;
@@ -71,11 +72,11 @@ public class DragonBoss implements Enemy {
     private int speed;
 
     private String element;
-    private List<Ability> abilities;
+    private List<Ability> abilities = new ArrayList<>();
 
     // --- Boss Phases (health thresholds that trigger behavior changes) ---
     // Phase number -> health threshold at which this phase activates
-    private Map<Integer, Integer> phases;
+    private Map<Integer, Integer> phases = new HashMap<>();
 
     private LootTable lootTable;
     private String aiBehavior;
@@ -109,6 +110,7 @@ public class DragonBoss implements Enemy {
         this.canFly = canFly;
         this.hasBreathAttack = hasBreathAttack;
     }
+    private DragonBoss(){}
 
     public String getName() {
         return name;
@@ -135,12 +137,12 @@ public class DragonBoss implements Enemy {
 
     @Override
     public List<Ability> getAbilities() {
-        return List.of();
+        return abilities;
     }
 
     @Override
     public LootTable getLootTable() {
-        return null;
+        return lootTable;
     }
 
     public void displayInfo() {
@@ -176,6 +178,24 @@ public class DragonBoss implements Enemy {
 
     @Override
     public Enemy clone() {
+        DragonBoss copy = new DragonBoss();
+        copy.name = this.name;
+        copy.health = this.health;
+        copy.damage = this.damage;
+        copy.defense = this.defense;
+        copy.speed = this.speed;
+        copy.element = this.element;
+        List<Ability> copyList = new ArrayList<>();
+        for(Ability ability : this.abilities) {
+            copyList.add(ability.clone());
+        }
+        copy.abilities = copyList;
+        copy.phases = new HashMap<>();
+        copy.phases.putAll(this.phases);
+        copy.aiBehavior = this.aiBehavior;
+        copy.lootTable = this.lootTable.clone();
+        copy.hasBreathAttack = this.hasBreathAttack;
+        copy.canFly = this.canFly;
         return null;
     }
 
@@ -190,7 +210,27 @@ public class DragonBoss implements Enemy {
     // That's the challenge of Prototype with complex objects.
 
     // TODO: Add helper methods for variant creation
-    // - void setElement(String element) — for elemental variants
-    // - void multiplyStats(double multiplier) — for difficulty tiers
+    public void setElement(String element){
+        this.element = element;
+    }
+    public void setAbilities(List<Ability> abilities){
+        this.abilities.addAll(abilities);
+    };
+    @Override
+    public void multiplyStats(double multiplier){
+        this.health = (int) (this.health*multiplier);
+        this.damage = (int) (this.damage*multiplier);
+        this.defense = (int) (this.defense*multiplier);
+        this.speed = (int) (this.speed*multiplier);
+    }
+
+    @Override
+    public void addAbility(Ability ability){
+        this.abilities.add(ability);
+    }
+    @Override
+    public void addPhase(int phaseNumber, int healthThreshold) {
+        this.phases.put(phaseNumber, healthThreshold);
+    }
 
 }

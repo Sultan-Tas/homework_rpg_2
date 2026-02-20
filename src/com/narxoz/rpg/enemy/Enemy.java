@@ -1,6 +1,7 @@
 package com.narxoz.rpg.enemy;
 
 import com.narxoz.rpg.combat.Ability;
+import com.narxoz.rpg.combat.BleedingStrike;
 import com.narxoz.rpg.loot.LootTable;
 
 import java.util.List;
@@ -78,6 +79,12 @@ public interface Enemy {
 
     //Define clone method for Prototype pattern
     Enemy clone();
+
+    void multiplyStats(double i);
+
+    void addAbility(Ability ability);
+
+    void addPhase(int i, int health);
     //
     // CRITICAL: This must perform DEEP COPY!
     // If you do shallow copy, cloned enemies will share ability

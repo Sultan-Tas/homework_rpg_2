@@ -8,7 +8,7 @@ public class EnemyDirector {
     private EnemyBuilder builder;
 
     public Enemy createMinion(EnemyComponentFactory factory){
-        return builder
+        return new BasicEnemyBuilder()
                 .setName("Weak Minion")
                 .setHealth(15)
                 .setDamage(5)
@@ -21,8 +21,8 @@ public class EnemyDirector {
                 .build();
     }
     public Enemy createElite(EnemyComponentFactory factory){
-        return builder
-                .setName("Elite Goblin")
+        return new BasicEnemyBuilder()
+                .setName("Elite Foe")
                 .setHealth(160)
                 .setDamage(16)
                 .setDefence(15)
@@ -34,7 +34,7 @@ public class EnemyDirector {
                 .build();
     }
     public Enemy createMiniBoss(EnemyComponentFactory factory){
-        return builder
+        return new BossEnemyBuilder()
                 .setName("Mini Boss")
                 .setHealth(500)
                 .setDamage(20)
@@ -51,7 +51,7 @@ public class EnemyDirector {
                 .build();
     }
     public Enemy createRaidBoss(EnemyComponentFactory factory){
-        return builder
+        return new BossEnemyBuilder()
                 .setName("Raid Boss")
                 .setHealth(3000)
                 .setDamage(40)

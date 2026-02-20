@@ -2,13 +2,14 @@ package com.narxoz.rpg.builder;
 
 import com.narxoz.rpg.combat.Ability;
 import com.narxoz.rpg.enemy.DragonBoss;
-import com.narxoz.rpg.enemy.Goblin;
 import com.narxoz.rpg.loot.LootTable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DragonEnemyBuilder implements EnemyBuilder{
+public class BossEnemyBuilder implements EnemyBuilder{
     // --- Basic Stats ---
     private String name;
     private int health;
@@ -17,11 +18,11 @@ public class DragonEnemyBuilder implements EnemyBuilder{
     private int speed;
 
     private String element;
-    private List<Ability> abilities;
+    private List<Ability> abilities = new ArrayList<Ability>();
 
     // --- Boss Phases (health thresholds that trigger behavior changes) ---
     // Phase number -> health threshold at which this phase activates
-    private Map<Integer, Integer> phases;
+    private Map<Integer, Integer> phases = new HashMap<Integer, Integer>();
 
     private LootTable lootTable;
     private String aiBehavior;
@@ -31,84 +32,97 @@ public class DragonEnemyBuilder implements EnemyBuilder{
 
 
     @Override
-    public DragonEnemyBuilder setName(String name) {
+    public BossEnemyBuilder setName(String name) {
         this.name = name;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setHealth(int health) {
+    public BossEnemyBuilder setHealth(int health) {
         this.health = health;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setDamage(int damage) {
+    public BossEnemyBuilder setDamage(int damage) {
         this.damage = damage;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setDefence(int defence) {
+    public BossEnemyBuilder setDefence(int defence) {
         this.defense = defence;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setSpeed(int speed) {
+    public BossEnemyBuilder setSpeed(int speed) {
         this.speed = speed;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setElement(String element) {
+    public BossEnemyBuilder setElement(String element) {
         this.element = element;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder addAbility(Ability ability) {
+    public BossEnemyBuilder addAbility(Ability ability) {
         this.abilities.add(ability);
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setAbilities(List<Ability> abilities) {
-        this.abilities = abilities;
+    public BossEnemyBuilder setAbilities(List<Ability> abilities) {
+        this.abilities.addAll(abilities);
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setLootTable(LootTable loot) {
+    public BossEnemyBuilder setLootTable(LootTable loot) {
         this.lootTable = loot;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder setAI(String aiBehaviour) {
+    public BossEnemyBuilder setAI(String aiBehaviour) {
         this.aiBehavior = aiBehaviour;
         return this;
     }
 
     @Override
-    public DragonEnemyBuilder addPhase(int phaseNumber, int healthThreshold) {
+    public BossEnemyBuilder addPhase(int phaseNumber, int healthThreshold) {
         this.phases.put(phaseNumber, healthThreshold);
         return this;
     }
 
-    public DragonEnemyBuilder setCanFly(boolean canFly) {
+    public BossEnemyBuilder setCanFly(boolean canFly) {
         this.canFly = canFly;
         return this;
     }
 
-    public DragonEnemyBuilder setHasBreathAttack(boolean breathAttack) {
+    public BossEnemyBuilder setHasBreathAttack(boolean breathAttack) {
         this.hasBreathAttack = breathAttack;
         return this;
     }
     @Override
     public DragonBoss build() {
-        if(name == null || health <= 0 || damage <= 0 || defense <= 0 || speed <= 0) {
-            throw new IllegalStateException("Error in input fields");
+
+        if(name == null) {
+            throw new IllegalStateException("Name cannot be null");
+        }
+        if(health <= 0){
+            throw new IllegalStateException("Health must be greater than 0");
+        }
+        if(damage <= 0){
+            throw new IllegalStateException("Damage must be greater than 0");
+        }
+        if(defense <= 0){
+            throw new IllegalStateException("Defense must be greater than 0");
+        }
+        if(speed <= 0){
+            throw new IllegalStateException("Speed must be greater than 0");
         }
         return new DragonBoss(name,
                 health,
