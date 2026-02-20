@@ -17,5 +17,8 @@ public interface EnemyBuilder {
     EnemyBuilder setAbilities(List<Ability> abilities);
     EnemyBuilder setLootTable(LootTable loot);
     EnemyBuilder setAI(String aiBehaviour);
+    EnemyBuilder addPhase(int phaseNumber, int healthThreshold);
+    EnemyBuilder setCanFly(boolean canFly);
+    EnemyBuilder setHasBreathAttack(boolean breathAttack);
     Enemy build();
 }

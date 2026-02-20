@@ -91,7 +91,7 @@ public class DragonBoss implements Enemy {
     public DragonBoss(String name, int health, int damage, int defense,
                       int speed, String element,
                       List<Ability> abilities,
-                      int phase1Threshold, int phase2Threshold,
+                      Map<Integer, Integer> phases,
                       LootTable lootTable, String aiBehavior,
                       boolean canFly, boolean hasBreathAttack) {
 
@@ -103,8 +103,7 @@ public class DragonBoss implements Enemy {
         this.element = element;
         this.abilities = abilities != null ? abilities : new ArrayList<>();
         this.phases = new HashMap<>();
-        this.phases.put(1, phase1Threshold);
-        this.phases.put(2, phase2Threshold);
+        this.phases.putAll(phases);
         this.lootTable = lootTable;
         this.aiBehavior = aiBehavior;
         this.canFly = canFly;

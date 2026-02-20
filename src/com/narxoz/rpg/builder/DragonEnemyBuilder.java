@@ -22,8 +22,6 @@ public class DragonEnemyBuilder implements EnemyBuilder{
     // --- Boss Phases (health thresholds that trigger behavior changes) ---
     // Phase number -> health threshold at which this phase activates
     private Map<Integer, Integer> phases;
-    private int phase1Threshold;
-    private int phase2Threshold;
 
     private LootTable lootTable;
     private String aiBehavior;
@@ -92,15 +90,12 @@ public class DragonEnemyBuilder implements EnemyBuilder{
         return this;
     }
 
-    public DragonEnemyBuilder setPhase1Threshold(int threshold) {
-        this.phase1Threshold = threshold;
+    @Override
+    public DragonEnemyBuilder addPhase(int phaseNumber, int healthThreshold) {
+        this.phases.put(phaseNumber, healthThreshold);
         return this;
     }
 
-    public DragonEnemyBuilder setPhase2Threshold(int threshold) {
-        this.phase2Threshold = threshold;
-        return this;
-    }
     public DragonEnemyBuilder setCanFly(boolean canFly) {
         this.canFly = canFly;
         return this;
@@ -122,8 +117,7 @@ public class DragonEnemyBuilder implements EnemyBuilder{
                 speed,
                 element,
                 abilities,
-                phase1Threshold,
-                phase2Threshold,
+                phases,
                 lootTable,
                 aiBehavior,
                 canFly,

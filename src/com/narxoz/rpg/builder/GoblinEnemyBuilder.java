@@ -76,6 +76,21 @@ public class GoblinEnemyBuilder implements EnemyBuilder {
     }
 
     @Override
+    public EnemyBuilder addPhase(int phaseNumber, int healthThreshold) {
+        return this;
+    }
+
+    @Override
+    public EnemyBuilder setCanFly(boolean canFly) {
+        return this;
+    }
+
+    @Override
+    public EnemyBuilder setHasBreathAttack(boolean breathAttack) {
+        return this;
+    }
+
+    @Override
     public Goblin build() {
         if(name == null || health <= 0 || damage <= 0 || defense <= 0 || speed <= 0) {
             throw new IllegalStateException("Error in input fields");

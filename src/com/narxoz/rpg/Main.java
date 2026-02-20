@@ -162,17 +162,17 @@ public class Main {
                 .setSpeed(60)
                 .setAbilities(fireFactory.createAbilities())
                 .setLootTable(fireFactory.createLootTable())
-                .setPhase1Threshold(50000)
-                .setPhase2Threshold(30000)
+                .addPhase(1, 50000)
+                .addPhase(2, 30000)
                 .build();
 
         EnemyDirector director = new EnemyDirector();
-        Enemy minion = director.createMinion(new GoblinEnemyBuilder(), fireFactory);
-        Enemy raidboss = director.createRaidBoss(new DragonEnemyBuilder(), iceFactory);
+        Enemy minion = director.createMinion(fireFactory);
+        Enemy raidBoss = director.createRaidBoss(iceFactory);
 
         dragon.displayInfo();
         minion.displayInfo();
-        raidboss.displayInfo();
+        raidBoss.displayInfo();
 
         // ============================================================
         // PART 3: PROTOTYPE PATTERN

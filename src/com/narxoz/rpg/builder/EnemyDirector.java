@@ -1,16 +1,13 @@
 package com.narxoz.rpg.builder;
 
 import com.narxoz.rpg.combat.Punch;
-import com.narxoz.rpg.enemy.DragonBoss;
 import com.narxoz.rpg.enemy.Enemy;
-import com.narxoz.rpg.enemy.Goblin;
 import com.narxoz.rpg.factory.EnemyComponentFactory;
-import com.narxoz.rpg.builder.*;
 
 public class EnemyDirector {
     private EnemyBuilder builder;
 
-    public Enemy createMinion(GoblinEnemyBuilder builder, EnemyComponentFactory factory){
+    public Enemy createMinion(EnemyComponentFactory factory){
         return builder
                 .setName("Weak Minion")
                 .setHealth(15)
@@ -18,11 +15,12 @@ public class EnemyDirector {
                 .setDefence(3)
                 .setSpeed(15)
                 .setAbilities(factory.createAbilities())
+                .addAbility(new Punch())
                 .setLootTable(factory.createLootTable())
                 .setElement("dark")
                 .build();
     }
-    public Enemy createElite(GoblinEnemyBuilder builder, EnemyComponentFactory factory){
+    public Enemy createElite(EnemyComponentFactory factory){
         return builder
                 .setName("Elite Goblin")
                 .setHealth(160)
@@ -35,7 +33,7 @@ public class EnemyDirector {
                 .setElement("Heavy")
                 .build();
     }
-    public Enemy createMiniBoss(DragonEnemyBuilder builder, EnemyComponentFactory factory){
+    public Enemy createMiniBoss(EnemyComponentFactory factory){
         return builder
                 .setName("Mini Boss")
                 .setHealth(500)
@@ -45,14 +43,14 @@ public class EnemyDirector {
                 .setElement("Normal")
                 .setAbilities(factory.createAbilities())
                 .setLootTable(factory.createLootTable())
-                .setPhase1Threshold(500)
-                .setPhase2Threshold(200)
+                .addPhase(1, 500)
+                .addPhase(2, 200)
                 .setAI("AGGRESSIVE")
                 .setCanFly(true)
                 .setHasBreathAttack(true)
                 .build();
     }
-    public Enemy createRaidBoss(DragonEnemyBuilder builder, EnemyComponentFactory factory){
+    public Enemy createRaidBoss(EnemyComponentFactory factory){
         return builder
                 .setName("Raid Boss")
                 .setHealth(3000)
@@ -62,8 +60,8 @@ public class EnemyDirector {
                 .setElement("Evil")
                 .setAbilities(factory.createAbilities())
                 .setLootTable(factory.createLootTable())
-                .setPhase1Threshold(3000)
-                .setPhase2Threshold(1000)
+                .addPhase(1, 3000)
+                .addPhase(2, 1000)
                 .setAI("AGGRESSIVE")
                 .setCanFly(true)
                 .setHasBreathAttack(true)
